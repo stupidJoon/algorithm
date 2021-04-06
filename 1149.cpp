@@ -17,9 +17,6 @@ int main() {
     dp[i][1] += min(dp[i - 1][0], dp[i - 1][2]) + arr[i][1];
     dp[i][2] += min(dp[i - 1][0], dp[i - 1][1]) + arr[i][2];
   }
-  cout << min(dp[n - 1][0], min(dp[n - 1][1], dp[n - 1][2])) << endl;
-  for (int i = 0; i < n; i++) {
-    cout << "dp[" << i << "] = " << dp[i][0] << ' ' << dp[i][1] << ' ' << dp[i][2] << endl;
-  }
+  cout << min(dp[n - 1][0], min(dp[n - 1][1], dp[n - 1][2]));
   return 0;
 }
