@@ -18,13 +18,8 @@ int main() {
       score2.push_back(tmp2);
     }
     auto maxScore1 = max_element(score1.begin(), score1.end());
+    int maxScore2 = *max_element(score2.begin(), score2.end());
     cout << maxScore1 - score1.begin();
-    // int maxScore2 = *max_element(score2.begin(), score2.end());
-    // int passed = 0;
-    // for (int j = 0; j < n; j++) {
-    //   if (score1[j] > maxScore1 || score2[j] > maxScore2) passed += 1;
-    // }
-    // cout << maxScore1 << ' ' << maxScore2;
   }
   return 0;
 }
