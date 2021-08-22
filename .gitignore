@@ -164,3 +164,4 @@ $RECYCLE.BIN/
 
 # exe
 *.exe
+node_modules
