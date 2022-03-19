@@ -6,26 +6,34 @@ arr = arr.map((v) => Number(v));
 
 arr.sort((a, b) => a - b);
 
-const sum = arr.reduce((acc, cur) => acc + cur);
-const arithmeticMean = parseInt(sum / N);
+let sum = 0;
+const map = new Map();
+let max = Number.MIN_SAFE_INTEGER;
+let min = Number.MAX_SAFE_INTEGER;
 
-const median = (N % 2) ? arr[Math.floor(N / 2)] : (arr[Math.floor(N / 2) - 1] + arr[Math.floor(N / 2)]) / 2;
+for (let element of arr) {
+    sum += element;
 
-const deduplicatedArr = [...new Set(arr)];
-const valueAndFrequency = deduplicatedArr.map((value) => [value, arr.filter((v) => v === value).length]);
-let maxFrequency = Number.MIN_SAFE_INTEGER;
-for (value of valueAndFrequency) {
-    if (value[1] > maxFrequency) maxFrequency = value[1];
+    if (!map.has(element)) {
+        map.set(element, 1);
+    } else {
+        map.set(element, map.get(element) + 1);
+    }
+
+    if (element > max) max = element;
+    if (element < min) min = element;
 }
-const modeArr = valueAndFrequency.filter((value) => value[1] === maxFrequency).map((v) => v[0]);
-modeArr.sort((a, b) => a - b);
-const mode = (modeArr.length > 1) ? modeArr[1] : modeArr[0];
 
-let [min, max] = [Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER];
-for (value of arr) {
-    if (value < min) min = value;
-    if (value > max) max = value;
+const mostFrequentValue = Math.max(...map.values());
+const mostFrequentKeys = [...map.keys()].filter((v) => map.get(v) === mostFrequentValue);
+let mostFrequent;
+if (mostFrequentKeys.length === 1) {
+    mostFrequent = mostFrequentKeys[0];
+} else {
+    mostFrequent = mostFrequentKeys[1];
 }
-const range = max - min;
 
-console.log(`${arithmeticMean.toString()}\n${median}\n${mode}\n${range}`)
+console.log(Math.round(sum / arr.length) + 0);
+console.log(arr[Math.floor(arr.length / 2)]);
+console.log(mostFrequent);
+console.log(max - min);
