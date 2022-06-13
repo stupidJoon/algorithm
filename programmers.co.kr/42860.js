@@ -8,14 +8,12 @@ function solution(name) {
         arr[index] = name[index];
         count += (forward > reverse) ? reverse : forward;
 
-        console.log(arr);
-
         if (arr.join('') === name) break;
 
         let leftACount = 0;
         let i = index - 1;
         if (i < 0) i = arr.length - 1;
-        while (arr[i] === 'A') {
+        while (arr[i] === name[i]) {
             leftACount += 1;
             i -= 1;
             if (i < 0) i = arr.length - 1;
@@ -23,7 +21,7 @@ function solution(name) {
         let rightACount = 0;
         i = index + 1;
         if (i >= arr.length) i = 0;
-        while(arr[i] === 'A') {
+        while(arr[i] === name[i]) {
             rightACount += 1;
             i += 1;
             if (i >= arr.length) i = 0;
@@ -31,16 +29,15 @@ function solution(name) {
 
         if (leftACount < rightACount) {
             count += leftACount + 1;
-            index -= 1;
-            if (index < 0) index = arr.length - 1;
+            index -= leftACount + 1;
+            if (index < 0) index = arr.length + index;
         } else {
             count += rightACount + 1;
-            index += 1;
-            if (index >= arr.length) index = 0;
+            index += rightACount + 1;
+            if (index >= arr.length) index = index - array.length - 1;
         }
-        console.log(leftACount, rightACount, index)
     }
     return count;
 }
 
-solution('JAN')
+console.log(solution('JAN'));
