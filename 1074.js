@@ -1,20 +1,28 @@
-const [N, r, c] = [2, 3, 1];
+const [N, r, c] = require('fs').readFileSync('/dev/stdin').toString().trim().split(' ').map(Number);
 
-function f(size, pos, [baseRow, baseCol]) {
-    let insideSize = pow(2, size - 1)
-    if (size === 1) {
-        if (baseRow === )
+function z(row, col, n, index) {
+    if (n === 2) {
+        [[row, col], [row, col + 1], [row + 1, col], [row + 1, col + 1]]
+            .forEach(([nr, nc], i) => {
+                if (nr === r && nc === c) {
+                    console.log(index + i);
+                }
+            });
+    } else {
+        if (r < row +  n / 2) {
+            if (c < col + n / 2) {
+                z(row, col, n / 2, index);
+            } else {
+                z(row, col + n / 2, n / 2, index + Math.pow(n / 2, 2));
+            }
+        } else {
+            if (c < col + n / 2) {
+                z(row + n / 2, col, n / 2, index + Math.pow(n / 2, 2) * 2);
+            } else {
+                z(row + n / 2, col + n / 2, n / 2, index + Math.pow(n / 2, 2) * 3);
+            }
+        }
     }
-    f(size - 1, 0, [baseRow, baseCol]);
-    f(size - 1, 1, [baseRow, baseCol + insideSize]);
-    f(size - 1, 2, [baseRow + insideSize, baseCol]);
-    f(size - 1, 3, [baseRow + insideSize, baseCol + insideSize]);
 }
 
-f(2, 0, [0, 0]);
-f(2, 0, [0, 2]);
-f(2, 0, [2, 0]);
-f(2, 0, [2, 2]);
-
-// 아 하기싫어
-// 미래의 내가 해줘 ㅋㅋㅋㅋㅋ
+z(0, 0, Math.pow(2, N), 0);
