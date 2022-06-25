@@ -14,13 +14,13 @@ function bfs() {
     const m = map.map((v) => [...v]);
     while (queue.length > 0) {
         const [row, col] = queue.shift();
-        m[row][col] = 2;
         const available = [[-1, 0], [0, -1], [1, 0], [0, 1]]
             .map(([r, c]) => [row + r, col + c])
             .filter(([r, c]) => (r >= 0 && r < N) && (c >= 0 && c < M))
             .filter(([r, c]) => m[r][c] === 0)
             .forEach(([r, c]) => {
                 queue.push([r, c]);
+                m[r][c] = 2;
             });
     }
     return m.flatMap((val) => val.filter((v) => v === 0)).length;
