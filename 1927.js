@@ -65,7 +65,6 @@ class MinHeap {
 const h = new MinHeap();
 
 const input = require('fs').readFileSync('/dev/stdin').toString().trim();
-if (input === 0) process.exit();
 
 console.log(
     require('fs')
