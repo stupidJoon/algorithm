@@ -1,63 +1,39 @@
 class MinHeap {
     constructor() {
-        this.arr = [];
+        this.arr = [0];
     }
+    
     insert(n) {
-        this.arr.push(n);
-        for (let i = this.arr.length - 1; i > 0; i = Math.floor(i / 2)) {
-            const parent = Math.floor(i / 2);
-            if (this.arr[i] < this.arr[parent]) {
-                [this.arr[i], this.arr[parent]] = [this.arr[parent], this.arr[i]];
-            } else {
-                break;
-            }
+        const arr = this.arr;
+        arr.push(n)
+        for (let i = arr.length - 1; arr[i] < arr[Math.floor(i / 2)]; i = Math.floor(i / 2)) {
+            [arr[i], arr[Math.floor(i / 2)]] = [arr[Math.floor(i / 2)], arr[i]];
         }
     }
+
     remove() {
-        const root = this.arr[0];
+        const arr = this.arr;
+        const root = arr[1];
         
-        if (this.arr.length === 0) {
+        if (arr.length === 1) {
             return 0;
         }
-        if (this.arr.length === 1) {
-            this.arr.pop();
-            return root;
-        }
-        if (this.arr.length === 2) {
-            this.arr[0] = this.arr.pop();
-            return root;
+        if (arr.length === 2) {
+            return arr.pop();
         }
 
-        this.arr[0] = this.arr.pop();
-        for (let i = 2; i < this.arr.length + 1;) {
-            const parent = this.arr[i / 2 - 1];
-            const children = [this.arr[i - 1], this.arr[i]];
-            if (children.every((v) => v < parent)) {
-                // children both smaller
-                if (children[0] < children[1] || children[1] === undefined) {
-                    // left smaller
-                    [this.arr[i / 2 - 1], this.arr[i - 1]] = [this.arr[i - 1], this.arr[i / 2 - 1]];
-                    i *= 2;
-                } else {
-                    // right smaller
-                    [this.arr[i / 2 - 1], this.arr[i]] = [this.arr[i], this.arr[i / 2 - 1]];
-                    i = (i + 1) * 2;
-                }
-            }
-            else if (children[0] < parent) {
-                // left children smaller
-                [this.arr[i / 2 - 1], this.arr[i - 1]] = [this.arr[i - 1], this.arr[i / 2 - 1]];
-                i *= 2;
+        arr[1] = arr.pop();
 
-            }
-            else if (children[1] < parent) {
-                // right children smaller
-                [this.arr[i / 2 - 1], this.arr[i]] = [this.arr[i], this.arr[i / 2 - 1]];
-                i = (i + 1) * 2;
+        for (let i = 1; arr[i] > arr[i * 2] || arr[i] > arr[i * 2 + 1];) {
+            if (arr[i * 2 + 1] === undefined || arr[i * 2] < arr[i * 2 + 1]) {
+                [arr[i], arr[i * 2]] = [arr[i * 2], arr[i]];
+                i = i * 2;
             } else {
-                break;
+                [arr[i], arr[i * 2 + 1]] = [arr[i * 2 + 1], arr[i]];
+                i = i * 2 + 1;
             }
         }
+
         return root;
     }
 }
