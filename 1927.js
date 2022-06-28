@@ -40,8 +40,6 @@ class MinHeap {
 
 const h = new MinHeap();
 
-const input = require('fs').readFileSync('/dev/stdin').toString().trim();
-
 console.log(
     require('fs')
     .readFileSync('/dev/stdin')
