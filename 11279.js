@@ -1,4 +1,4 @@
-class MinHeap {
+class MaxHeap {
     constructor() {
         this.arr = [Number.MAX_SAFE_INTEGER];
     }
@@ -38,7 +38,7 @@ class MinHeap {
     }
 }
 
-const h = new MinHeap();
+const h = new MaxHeap();
 
 console.log(
     require('fs')
