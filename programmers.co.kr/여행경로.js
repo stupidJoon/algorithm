@@ -29,13 +29,5 @@ function solution(tickets) {
     }
     return 0;
   });
-  console.log(availableRoutes[0]);
+  return availableRoutes[0];
 }
-
-solution([
-  ['ICN', 'SFO'],
-  ['ICN', 'ATL'],
-  ['SFO', 'ATL'],
-  ['ATL', 'ICN'],
-  ['ATL', 'SFO'],
-]);
