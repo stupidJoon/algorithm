@@ -1,13 +1,18 @@
 const fs = require('fs');
 
-const N = Number(fs.readFileSync('/dev/stdin').toString().trim());
+const input = fs.readFileSync('/dev/stdin').toString().trim();
+const N = Number(input);
 
-let min = -1;
+let five = Math.floor(N / 5);
+let three = Math.floor((N - five * 5) / 3);
 
-for (let i = 0; i * 5 <= N; i += 1) {
-    if ((N - i * 5) % 3 === 0) {
-        min = i + (N - i * 5) / 3;
-    }
+while (five * 5 + three * 3 !== N && five >= 0) {
+  five -= 1;
+  three = Math.floor((N - five * 5) / 3);
 }
 
-console.log(min);
+if (five >= 0) {
+  console.log(five + three);
+} else {
+  console.log(-1);
+}
