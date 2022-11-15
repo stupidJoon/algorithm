@@ -25,7 +25,7 @@ arr.forEach((value) => {
       log.push(Number(stack.length === 0));
     },
     top: () => {
-      log.push(stack[stack.length - 1] ?? -1);
+      log.push(stack.at(-1) ?? -1);
     },
   })[opcode]();
 });
