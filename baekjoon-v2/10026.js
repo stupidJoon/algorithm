@@ -37,14 +37,12 @@ isVisited = arr.map((v) => v.map(() => false));
 let colorWeak = 0;
 
 function colorWeakdfs(i, j) {
-
   const color = arr[i][j];
 
   [[0, -1], [-1, 0], [0, 1], [1, 0]]
     .map(([vi, vj]) => [i + vi, j + vj])
     .filter(([vi, vj]) => (vi >= 0 && vi < N) && (vj >= 0 && vj < N))
     .filter(([vi, vj]) => isVisited[vi][vj] === false)
-    .map((v) => { console.log(v); return v; })
     .filter(([vi, vj]) => {
       if (color === arr[vi][vj]) return true;
       if (color === 'R' && arr[vi][vj] === 'G') return true;
@@ -53,7 +51,7 @@ function colorWeakdfs(i, j) {
     })
     .forEach(([vi, vj]) => {
       isVisited[vi][vj] = true;
-      dfs(vi, vj)
+      colorWeakdfs(vi, vj)
     });
 }
 
@@ -63,16 +61,8 @@ for (let i = 0; i < N; i += 1) {
       isVisited[i][j] = true;
       colorWeakdfs(i, j);
       colorWeak += 1;
-      // console.log(isVisited)
     }
   }
 }
 
 console.log(normal, colorWeak)
-
-// 5
-// RGBBB
-// BBBRG
-// GRGRG
-// BBBBR
-// GGRBR
