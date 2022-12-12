@@ -33,44 +33,40 @@ function pop() {
   let right = parent * 2 + 1;
 
   while (left < heap.length) {
-    if (abs(heap[parent]) < abs(heap[left]) && abs(heap[parent]) < abs(heap[right] ?? Number.MAX_SAFE_INTEGER)) break;
-    if (abs(heap[parent]) === abs(heap[left]) && heap[parent] < heap[left]) break;
-    if (heap[right] && abs(heap[parent]) === abs(heap[right]) && heap[parent] < heap[right]) break;
+    const parentABS = abs(heap[parent]);
+    const leftABS = abs(heap[left]);
+    const rightABS = abs(heap[right])
 
-    if (heap[right] === undefined) {
+    if (
+      (
+        heap[right] === undefined ||
+        leftABS === rightABS && heap[left] <= heap[right] ||
+        leftABS < rightABS
+      ) &&
+      (
+        parentABS > leftABS ||
+        parentABS === leftABS && heap[parent] > heap[left]
+      )
+    ) {
       [heap[parent], heap[left]] = [heap[left], heap[parent]];
       parent = left;
     }
-    else if (abs(heap[parent]) > abs(heap[left]) && abs(heap[parent]) > abs(heap[right])) {
-      if (abs(heap[left]) === abs(heap[right])) {
-        if (heap[left] < heap[right]) {
-          [heap[parent], heap[left]] = [heap[left], heap[parent]];
-          parent = left;
-        } else {
-          [heap[parent], heap[right]] = [heap[right], heap[parent]];
-          parent = right;
-        }
-      }
-      else if (abs(heap[left]) < abs(heap[right])) {
-        [heap[parent], heap[left]] = [heap[left], heap[parent]];
-        parent = left;
-      }
-      else {
-        [heap[parent], heap[right]] = [heap[right], heap[parent]];
-        parent = right;
-      }
-    }
-    else if (abs(heap[parent]) > abs(heap[left])) {
-      [heap[parent], heap[left]] = [heap[left], heap[parent]];
-      parent = left;
-    }
-    else {
+    else if (
+      (
+        leftABS === rightABS && heap[left] > heap[right] ||
+        leftABS > rightABS
+      ) &&
+      (
+        parentABS > rightABS ||
+        parentABS === rightABS && heap[parent] > heap[right]
+      )
+    ) {
       [heap[parent], heap[right]] = [heap[right], heap[parent]];
       parent = right;
-    }
+    } else break;
 
     left = parent * 2;
-    right = parent * 2 + 1
+    right = parent * 2 + 1;
   }
 
   return v;
@@ -80,10 +76,33 @@ const fs = require('fs');
 
 const arr = fs.readFileSync('/dev/stdin').toString().trim().split('\n').slice(1).map(Number);
 
-arr.forEach(v => {
-  if (v === 0) {
-    console.log(pop());
-  } else {
-    push(v);
-  }
-});
+console.log(arr.reduce(
+  (acc, v) => {
+    if (v === 0) acc.push(pop());
+    else push(v);
+    return acc;
+  }, []
+).join('\n'));
+
+/*
+parent left 바꾸는 조건
+01. right === undefined or
+02. abs(left) === abs(right) && heap[left] <= heap[right] or
+03. abs(left) < abs(right) 일때
+
+1. abs(parent) > abs(left) or
+2. abs(parent) === abs(left) && parent > left 일때
+
+swab(parent, left)
+*/
+
+/*
+parent right 바꾸는 조건
+01. abs(left) === abs(right) && heap[left] > heap[right] or
+02. abs(left) > abs(right) 일때
+
+1. abs(parent) > abs(right) or
+2. abs(parent) === abs(right) && parent > right 일때
+
+swab(parent, right)
+*/
