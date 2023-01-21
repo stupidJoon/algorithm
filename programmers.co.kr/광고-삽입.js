@@ -16,24 +16,31 @@ function solution(play_time, adv_time, logs) {
   adv_time = timeToSeconds(adv_time);
   logs = logs.map(s => s.split('-').map(timeToSeconds));
 
-  const startTimes = new Set();
-  const endTimes = new Set();
+  const startTimes = {};
+  const endTimes = {};
 
   logs.forEach(([src, dst]) => {
-    startTimes.add(src);
-    endTimes.add(dst);
+    if (startTimes[src] === undefined) {
+      startTimes[src] = 1;
+    } else {
+      startTimes[src] += 1;
+    }
+
+    if (endTimes[dst] === undefined) {
+      endTimes[dst] = 1;
+    } else {
+      endTimes[dst] += 1;
+    }
   })
 
-  const prefixSum = [0];
-  let views = 0;
+  const prefixSum = [startTimes[0] ?? 0];
+  let views = prefixSum[0];
 
   for (let time = 1; time <= play_time; time += 1) {
     prefixSum.push(prefixSum[prefixSum.length - 1] + views);
-    if (startTimes.has(time)) views += 1;
-    if (endTimes.has(time)) views -= 1;
+    if (startTimes[time] !== undefined) views += startTimes[time];
+    if (endTimes[time] !== undefined) views -= endTimes[time];
   }
-
-  console.log(prefixSum)
 
   let max = [0, 0];
   for (let endTime = adv_time; endTime <= play_time; endTime += 1) {
@@ -43,7 +50,7 @@ function solution(play_time, adv_time, logs) {
     if (sum > max[1]) max = [startTime, sum];
   }
 
-  console.log(secondsToTime(max[0]))
+  return secondsToTime(max[0]);
 }
 
 // 같은 시간에 2명 이상이 시청 시작하거나 끝낼 수 있는 가능성
