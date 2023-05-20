@@ -1,12 +1,23 @@
 function solution(number, k) {
-    const stack = [];
-    for (let i = 0; i < number.length; i += 1) {
-        const n = Number(number[i]);
-        while (k > 0 && stack[stack.length - 1] < n) {
+    number = number.split('').map(Number);
+    let stack = [];
+    
+    for (const num of number) {
+        while (num > stack.at(-1) && k > 0) {
             stack.pop();
             k -= 1;
         }
-        stack.push(n);
+        stack.push(num);
     }
-    return stack.slice(0, stack.length - k).join('');
+    
+    if (k > 0) {
+        stack = stack.slice(0, -k);
+    }
+    
+    return stack.join('');
 }
+
+// 4 1 7 7 2 5 2 8 4 1
+// 4, 41, 417->47->7, 77, 772, 7725->775, 7752, 77528->7758, 775841
+// 
+
